@@ -18,52 +18,7 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 TWEET_COUNT = 15
-USER_ID = "zhenwei_he"
-
-
-# def pull_and_store(api, user_ids, depth):
-# for id in user_ids:
-#     path0 = "analysis_result/{0}".format(id, depth)
-#     path1 = "analysis_result/{0}/{1}".format(id, depth)
-#     if not os.path.exists(path0):
-#         os.makedirs(path0)
-#     if not os.path.exists(path1):
-#         os.makedirs(path1)
-
-#     follower_list = api.get_follower_ids(screen_name=id)
-#     followers = []
-#     # printing the latest 20 followers of the user
-#     for follower in follower_list:
-#         followers.append(follower)
-#     with open(
-#         "analysis_result/{0}/{1}/followers.json".format(id, depth), "w"
-#     ) as outfile:
-#         json.dump(followers, outfile)
-
-#     following_list = api.get_friend_ids(screen_name=id)
-#     followings = []
-#     for follower in following_list:
-#         followings.append(follower)
-#     with open(
-#         "analysis_result/{0}/{1}/followings.json".format(id, depth), "w"
-#     ) as outfile:
-#         json.dump(followings, outfile)
-
-#     tweets = api.user_timeline(
-#         screen_name=id,
-#         count=15,
-#         include_rts=False,
-#         tweet_mode="extended",
-#     )
-
-#     tweets = []
-#     for info in tweets:
-#         tweets.append(info.full_text)
-#     with open(
-#         "analysis_result/{0}/{1}/tweets.json".format(id, depth), "w"
-#     ) as outfile:
-#         json.dump(tweets, outfile)
-
+USER_ID = "Brandooboomin"
 
 depth = 0
 
@@ -99,7 +54,7 @@ for id in user_ids:
 
     tweets = api.user_timeline(
         screen_name=id,
-        count=2,
+        count=15,
         include_rts=False,
         tweet_mode="extended",
     )
@@ -111,7 +66,6 @@ for id in user_ids:
         json.dump(tweet_list, outfile)
 
 # Depth 1
-
 depth = 1
 
 followers = json.loads(
