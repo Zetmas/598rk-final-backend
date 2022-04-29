@@ -17,8 +17,11 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-TWEET_COUNT = 15
-USER_ID = "Brandooboomin"
+
+USER_ID = "TubboLive"
+
+
+TWEET_COUNT = 20
 
 depth = 0
 
