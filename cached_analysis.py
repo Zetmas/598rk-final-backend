@@ -11,7 +11,7 @@ nltk.download("stopwords")
 nltk.download("punkt")
 nltk.download("vader_lexicon")
 
-USER_ID = "SedleyAmelia"
+USER_ID = "zhenwei_he"
 
 
 def remove_stopword(text):
