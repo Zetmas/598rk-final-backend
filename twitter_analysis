@@ -1,5 +1,6 @@
 import tweepy
 import json
+import os
 
 # consumer_key = "EGsp3o1XooukOJKSHVeZ2UTkn"
 # consumer_secret = "1BpI7AdLz4epAQdMsELIu3qJsBiNlimrN8jZjZ3mU3liZgADdY"
@@ -20,37 +21,153 @@ TWEET_COUNT = 15
 USER_ID = "SedleyAmelia"
 
 
-follower_list = api.get_follower_ids(screen_name=USER_ID)
-followers0 = []
-# printing the latest 20 followers of the user
-for follower in follower_list:
-    followers0.append(follower)
-with open("analysis_result/followers0.json", "w") as outfile:
-    json.dump(followers0, outfile)
+# def pull_and_store(api, user_ids, depth):
+# for id in user_ids:
+#     path0 = "analysis_result/{0}".format(id, depth)
+#     path1 = "analysis_result/{0}/{1}".format(id, depth)
+#     if not os.path.exists(path0):
+#         os.makedirs(path0)
+#     if not os.path.exists(path1):
+#         os.makedirs(path1)
 
-following_list = api.get_friend_ids(screen_name=USER_ID)
-followings0 = []
-for follower in following_list:
-    followings0.append(follower)
-with open("analysis_result/followings0.json", "w") as outfile:
-    json.dump(followings0, outfile)
+#     follower_list = api.get_follower_ids(screen_name=id)
+#     followers = []
+#     # printing the latest 20 followers of the user
+#     for follower in follower_list:
+#         followers.append(follower)
+#     with open(
+#         "analysis_result/{0}/{1}/followers.json".format(id, depth), "w"
+#     ) as outfile:
+#         json.dump(followers, outfile)
+
+#     following_list = api.get_friend_ids(screen_name=id)
+#     followings = []
+#     for follower in following_list:
+#         followings.append(follower)
+#     with open(
+#         "analysis_result/{0}/{1}/followings.json".format(id, depth), "w"
+#     ) as outfile:
+#         json.dump(followings, outfile)
+
+#     tweets = api.user_timeline(
+#         screen_name=id,
+#         count=15,
+#         include_rts=False,
+#         tweet_mode="extended",
+#     )
+
+#     tweets = []
+#     for info in tweets:
+#         tweets.append(info.full_text)
+#     with open(
+#         "analysis_result/{0}/{1}/tweets.json".format(id, depth), "w"
+#     ) as outfile:
+#         json.dump(tweets, outfile)
 
 
-tweets = api.user_timeline(
-    screen_name=USER_ID,
-    # 200 is the maximum allowed count
-    count=15,
-    include_rts=False,
-    # Necessary to keep full_text
-    # otherwise only the first 140 words are extracted
-    tweet_mode="extended",
+depth = 0
+
+# Depth 0
+user_ids = [USER_ID]
+
+for id in user_ids:
+    path0 = "analysis_result/{0}".format(id, depth)
+    path1 = "analysis_result/{0}/{1}".format(id, depth)
+    if not os.path.exists(path0):
+        os.makedirs(path0)
+    if not os.path.exists(path1):
+        os.makedirs(path1)
+
+    follower_list = api.get_follower_ids(screen_name=id)
+    followers = []
+    # printing the latest 20 followers of the user
+    for follower in follower_list:
+        followers.append(follower)
+    with open(
+        "analysis_result/{0}/{1}/followers.json".format(id, depth), "w"
+    ) as outfile:
+        json.dump(followers, outfile)
+
+    following_list = api.get_friend_ids(screen_name=id)
+    followings = []
+    for follower in following_list:
+        followings.append(follower)
+    with open(
+        "analysis_result/{0}/{1}/followings.json".format(id, depth), "w"
+    ) as outfile:
+        json.dump(followings, outfile)
+
+    tweets = api.user_timeline(
+        screen_name=id,
+        count=2,
+        include_rts=False,
+        tweet_mode="extended",
+    )
+
+    tweets = []
+    for info in tweets:
+        print(info)
+        tweets.append(info.full_text)
+    with open("analysis_result/{0}/{1}/tweets.json".format(id, depth), "w") as outfile:
+        json.dump(tweets, outfile)
+
+# Depth 1
+
+depth = 1
+
+followers = json.loads(
+    open("analysis_result/{0}/{1}/followers.json".format(USER_ID, 0), "r").read()
 )
+followers = followers[:3]
 
-tweet0 = []
-for info in tweets:
-    tweet0.append(info.full_text)
-with open("analysis_result/tweets0.json", "w") as outfile:
-    json.dump(tweet0, outfile)
+followings = json.loads(
+    open("analysis_result/{0}/{1}/followings.json".format(USER_ID, 0), "r").read()
+)
+followings = followings[:3]
+
+user_ids = followers + followings
+
+for id in user_ids:
+    path0 = "analysis_result/{0}/1".format(USER_ID)
+    path1 = "analysis_result/{0}/1/{1}".format(USER_ID, id)
+    if not os.path.exists(path0):
+        os.makedirs(path0)
+    if not os.path.exists(path1):
+        os.makedirs(path1)
+
+    follower_list = api.get_follower_ids(user_id=id)
+    followers = []
+    # printing the latest 20 followers of the user
+    for follower in follower_list:
+        followers.append(follower)
+    with open(
+        "analysis_result/{0}/1/{1}/followers.json".format(USER_ID, id), "w"
+    ) as outfile:
+        json.dump(followers, outfile)
+
+    following_list = api.get_friend_ids(user_id=id)
+    followings = []
+    for follower in following_list:
+        followings.append(follower)
+    with open(
+        "analysis_result/{0}/1/{1}/followings.json".format(USER_ID, id), "w"
+    ) as outfile:
+        json.dump(followings, outfile)
+
+    tweets = api.user_timeline(
+        user_id=id,
+        count=15,
+        include_rts=False,
+        tweet_mode="extended",
+    )
+
+    tweets = []
+    for info in tweets:
+        tweets.append(info.full_text)
+    with open(
+        "analysis_result/{0}/1/{1}/tweets.json".format(USER_ID, id), "w"
+    ) as outfile:
+        json.dump(tweets, outfile)
 
 
 # import re
