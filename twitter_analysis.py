@@ -13,6 +13,7 @@ def analyze_tweet_account(USER_ID):
     nltk.download("stopwords")
     nltk.download("punkt")
     nltk.download("vader_lexicon")
+    nltk.download("wordnet")
 
     consumer_key = "rg56Aw7MlxgMTBxWQoiPC5yPQ"
     consumer_secret = "ZinYOuoRSTzZ1P9B8nKthuuMJusc9T7zSqlsWZHJA9sFUwsVCt"
