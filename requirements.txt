@@ -1,4 +1,5 @@
 Flask==2.0.3
+gunicorn==20.1.0
 matplotlib==3.5.1
 nltk==3.7
 tweepy==4.8.0
