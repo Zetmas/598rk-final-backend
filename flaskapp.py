@@ -1,5 +1,6 @@
-from flask import Flask, request
-from twitter_analysis import analyze_tweet_account
+from flask import Flask, request, url_for
+from twitter_analysis import analyze_tweet_account, clear_cache
+import json
 
 app = Flask(__name__)
 
@@ -14,7 +15,17 @@ def analyze():
     args = request.args
     id = args["id"]
     result = analyze_tweet_account(id)
-    return result
+
+    response = app.response_class(
+        response=json.dumps(result), status=200, mimetype="application/json"
+    )
+    return response
+
+
+@app.route("/clear", methods=["GET"])
+def clear():
+    clear_cache()
+    return "Cache Cleared"
 
 
 if __name__ == "__main__":

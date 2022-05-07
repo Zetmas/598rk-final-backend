@@ -1,6 +1,6 @@
 import tweepy
 import json
-import os
+import os, shutil
 import re
 import matplotlib.pyplot as plt
 
@@ -30,8 +30,8 @@ def analyze_tweet_account(USER_ID):
     user_ids = [USER_ID]
 
     for id in user_ids:
-        path0 = "analysis_result/{0}".format(id, depth)
-        path1 = "analysis_result/{0}/{1}".format(id, depth)
+        path0 = "static/analysis_result/{0}".format(id, depth)
+        path1 = "static/analysis_result/{0}/{1}".format(id, depth)
         if not os.path.exists(path0):
             os.makedirs(path0)
         if not os.path.exists(path1):
@@ -43,7 +43,7 @@ def analyze_tweet_account(USER_ID):
         for follower in follower_list:
             followers.append(follower)
         with open(
-            "analysis_result/{0}/{1}/followers.json".format(id, depth), "w"
+            "static/analysis_result/{0}/{1}/followers.json".format(id, depth), "w"
         ) as outfile:
             json.dump(followers, outfile)
 
@@ -52,7 +52,7 @@ def analyze_tweet_account(USER_ID):
         for follower in following_list:
             followings.append(follower)
         with open(
-            "analysis_result/{0}/{1}/followings.json".format(id, depth), "w"
+            "static/analysis_result/{0}/{1}/followings.json".format(id, depth), "w"
         ) as outfile:
             json.dump(followings, outfile)
 
@@ -67,7 +67,7 @@ def analyze_tweet_account(USER_ID):
         for info in tweets:
             tweet_list.append(info.full_text)
         with open(
-            "analysis_result/{0}/{1}/tweets.json".format(id, depth), "w"
+            "static/analysis_result/{0}/{1}/tweets.json".format(id, depth), "w"
         ) as outfile:
             json.dump(tweet_list, outfile)
 
@@ -75,20 +75,24 @@ def analyze_tweet_account(USER_ID):
     depth = 1
 
     followers = json.loads(
-        open("analysis_result/{0}/{1}/followers.json".format(USER_ID, 0), "r").read()
+        open(
+            "static/analysis_result/{0}/{1}/followers.json".format(USER_ID, 0), "r"
+        ).read()
     )
     followers = followers[:3]
 
     followings = json.loads(
-        open("analysis_result/{0}/{1}/followings.json".format(USER_ID, 0), "r").read()
+        open(
+            "static/analysis_result/{0}/{1}/followings.json".format(USER_ID, 0), "r"
+        ).read()
     )
     followings = followings[:3]
 
     user_ids = followers + followings
 
     for id in user_ids:
-        path0 = "analysis_result/{0}/1".format(USER_ID)
-        path1 = "analysis_result/{0}/1/{1}".format(USER_ID, id)
+        path0 = "static/analysis_result/{0}/1".format(USER_ID)
+        path1 = "static/analysis_result/{0}/1/{1}".format(USER_ID, id)
         if not os.path.exists(path0):
             os.makedirs(path0)
         if not os.path.exists(path1):
@@ -100,7 +104,7 @@ def analyze_tweet_account(USER_ID):
         for follower in follower_list:
             followers.append(follower)
         with open(
-            "analysis_result/{0}/1/{1}/followers.json".format(USER_ID, id), "w"
+            "static/analysis_result/{0}/1/{1}/followers.json".format(USER_ID, id), "w"
         ) as outfile:
             json.dump(followers, outfile)
 
@@ -109,7 +113,7 @@ def analyze_tweet_account(USER_ID):
         for follower in following_list:
             followings.append(follower)
         with open(
-            "analysis_result/{0}/1/{1}/followings.json".format(USER_ID, id), "w"
+            "static/analysis_result/{0}/1/{1}/followings.json".format(USER_ID, id), "w"
         ) as outfile:
             json.dump(followings, outfile)
 
@@ -124,7 +128,7 @@ def analyze_tweet_account(USER_ID):
         for info in tweets:
             tweet_list.append(info.full_text)
         with open(
-            "analysis_result/{0}/1/{1}/tweets.json".format(USER_ID, id), "w"
+            "static/analysis_result/{0}/1/{1}/tweets.json".format(USER_ID, id), "w"
         ) as outfile:
             json.dump(tweet_list, outfile)
 
@@ -151,12 +155,12 @@ def analyze_tweet_account(USER_ID):
 
     # read tweets from data/data_folder_name/tweets.txt
     tweets = json.loads(
-        open("analysis_result/{0}/0/tweets.json".format(USER_ID), "r").read()
+        open("static/analysis_result/{0}/0/tweets.json".format(USER_ID), "r").read()
     )
 
     community_tweets = []
 
-    rootdir = "analysis_result/{0}/1".format(USER_ID)
+    rootdir = "static/analysis_result/{0}/1".format(USER_ID)
 
     for subdir, dirs, files in os.walk(rootdir):
         for file in files:
@@ -193,7 +197,7 @@ def analyze_tweet_account(USER_ID):
     )
     fig.tight_layout()
 
-    plt.savefig("analysis_result/{0}/individual_analysis.png".format(USER_ID))
+    plt.savefig("static/analysis_result/{0}/individual_analysis.png".format(USER_ID))
     plt.close(fig)
 
     blob_scores = sia.polarity_scores(community_tweet_blob)
@@ -212,7 +216,19 @@ def analyze_tweet_account(USER_ID):
         "Community Sentiment.\nCompound score: {0}".format(blob_compound)
     )
     fig.tight_layout()
-    plt.savefig("analysis_result/{0}/community_analysis.png".format(USER_ID))
+    plt.savefig("static/analysis_result/{0}/community_analysis.png".format(USER_ID))
     plt.close(fig)
 
-    return USER_ID
+    return {
+        "individual": "static/analysis_result/{0}/individual_analysis.png".format(
+            USER_ID
+        ),
+        "community": "static/analysis_result/{0}/community_analysis.png".format(
+            USER_ID
+        ),
+    }
+
+
+def clear_cache():
+    shutil.rmtree("static/analysis_result")
+    os.mkdir("static/analysis_result")
