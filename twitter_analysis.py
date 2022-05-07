@@ -12,11 +12,6 @@ nltk.download("stopwords")
 nltk.download("punkt")
 nltk.download("vader_lexicon")
 
-# consumer_key = "EGsp3o1XooukOJKSHVeZ2UTkn"
-# consumer_secret = "1BpI7AdLz4epAQdMsELIu3qJsBiNlimrN8jZjZ3mU3liZgADdY"
-# access_token = "2392107032-1AxBsFmdqhWMHggzbpEEpXAAAymumCycP1i3SXO"
-# access_token_secret = "77FHYbYQpLBRzpdEBV5VgGXAdAskdXQ7e4SFVzuUHkG6T"
-
 consumer_key = "rg56Aw7MlxgMTBxWQoiPC5yPQ"
 consumer_secret = "ZinYOuoRSTzZ1P9B8nKthuuMJusc9T7zSqlsWZHJA9sFUwsVCt"
 access_token = "1518306287716552704-NaOJTDY7wjmEiIKqVKmtUktxwOc1aA"
