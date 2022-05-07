@@ -1,4 +1,5 @@
 from flask import Flask, request
+from twitter_analysis import analyze_tweet_account
 
 app = Flask(__name__)
 
@@ -11,7 +12,9 @@ def welcome():
 @app.route("/analyze", methods=["GET"])
 def analyze():
     args = request.args
-    return args
+    id = args["id"]
+    result = analyze_tweet_account(id)
+    return result
 
 
 if __name__ == "__main__":
