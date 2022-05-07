@@ -17,17 +17,17 @@ nltk.download("vader_lexicon")
 # access_token = "2392107032-1AxBsFmdqhWMHggzbpEEpXAAAymumCycP1i3SXO"
 # access_token_secret = "77FHYbYQpLBRzpdEBV5VgGXAdAskdXQ7e4SFVzuUHkG6T"
 
-consumer_key = "GyqWsKLuqKUSSGqeY55cJhoyf"
-consumer_secret = "VeEDGjjuj7lQQKITXCYvjPzJTy5sKm5MdYtHfsihWDjCt6yuE3"
-access_token = "1506342078372106244-QGjUI8wBwLxVtLDTMMOskB6KaAdBXS"
-access_token_secret = "3Itv4JYPAKmX0Ut5qhpmiUzgHNW7Armw5koyCn6nVOKgQ"
+consumer_key = "rg56Aw7MlxgMTBxWQoiPC5yPQ"
+consumer_secret = "ZinYOuoRSTzZ1P9B8nKthuuMJusc9T7zSqlsWZHJA9sFUwsVCt"
+access_token = "1518306287716552704-NaOJTDY7wjmEiIKqVKmtUktxwOc1aA"
+access_token_secret = "craE6WMFJ6H9COAsqtOPNFzxLJGeABFyMCTKCStLsNPmG"
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-USER_ID = "notbillzo"
+USER_ID = "zhenwei_he"
 
 TWEET_COUNT = 20
 
@@ -181,7 +181,6 @@ community_tweets = [remove_stopword(tweet) for tweet in community_tweets]
 tweet_blob = " ".join(tweets)
 community_tweet_blob = " ".join(community_tweets)
 
-
 sia = SentimentIntensityAnalyzer()
 
 blob_scores = sia.polarity_scores(tweet_blob)
@@ -202,7 +201,6 @@ fig.tight_layout()
 
 plt.savefig("analysis_result/{0}/individual_analysis.png".format(USER_ID))
 plt.close(fig)
-
 
 blob_scores = sia.polarity_scores(community_tweet_blob)
 blob_pos = blob_scores["pos"]
